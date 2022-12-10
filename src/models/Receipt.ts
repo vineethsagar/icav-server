@@ -30,8 +30,7 @@ const ReceiptSchema: Schema = new Schema(
         time: { type: Date, required: true }
     },
     {
-        versionKey: false,
-        timestamps: true
+        versionKey: false
     }
 );
 

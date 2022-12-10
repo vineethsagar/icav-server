@@ -42,7 +42,7 @@ const updateReceipt = (req: Request, res: Response, next: NextFunction) => {
 const deleteReceipt = (req: Request, res: Response, next: NextFunction) => {
     const receiptId = req.params.receiptId;
     return Receipt.findByIdAndDelete(receiptId)
-        .then((receipt) => (receipt ? res.status(204) : res.status(404).json({ message: `Receipt with ${receiptId} not found` })))
+        .then((receipt) => (receipt ? res.sendStatus(204) : res.status(404).json({ message: `Receipt with ${receiptId} not found` })))
         .catch((error) => res.status(500).json({ error }));
 };
 const readAllReceipt = (req: Request, res: Response, next: NextFunction) => {

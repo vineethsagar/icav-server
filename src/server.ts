@@ -3,8 +3,31 @@ import http from 'http';
 import mongoose from 'mongoose';
 
 import { config } from './config/config';
-import receiptRoutes from './routes/Receipt';
+import receiptRoutes, { route } from './routes/Receipt';
+import reportRoutes from './routes/Reports';
+import swaggerJSDoc from 'swagger-jsdoc';
+import swaggerUi, { SwaggerOptions } from 'swagger-ui-express';
+import './jobs/generateReports';
 const router = express();
+// ! Swagger setup
+const options = {
+    definition: {
+        openapi: '3.0.0',
+        info: {
+            title: 'ICAV  Receipts API',
+            version: '1.0.0',
+            description: 'A tiny NodeJS server for Receipts API'
+        },
+        servers: [
+            {
+                url: `http://localhost:${config.server.port}`
+            }
+        ]
+    },
+    apis: ['./src/routes/*.ts']
+};
+
+const specs = swaggerJSDoc(options);
 
 // ! connect to mongodb
 mongoose
@@ -14,6 +37,7 @@ mongoose
     })
     .then(() => {
         console.log('Connected to DB');
+        startServer();
     })
     .catch((error) => {
         console.log('Failed to connect to DB : ');
@@ -27,7 +51,7 @@ const startServer = () => {
         console.log(`Incoming connection -> Method : [${req.method}] - Url : [${req.url}] - IP : [${req.socket.remoteAddress}]`);
 
         res.on('finish', () => {
-            console.log(`Incoming connection -> Method : [${req.method}] - Url : [${req.url}] - IP : [${req.socket.remoteAddress}] - Status : [${res.statusCode}]`);
+            console.log(`Operation finished -> Method : [${req.method}] - Url : [${req.url}] - IP : [${req.socket.remoteAddress}] - Status : [${res.statusCode}]`);
         });
 
         next();
@@ -55,7 +79,9 @@ const startServer = () => {
 
     // ! Routes
 
+    router.use('/docs', swaggerUi.serve, swaggerUi.setup(specs));
     router.use('/receipts', receiptRoutes);
+    router.use('/reports', reportRoutes);
 
     // ! no route
 

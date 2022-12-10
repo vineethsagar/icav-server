@@ -9,7 +9,7 @@ export const ValidateSchema = (schema: ObjectSchema) => {
             await schema.validateAsync(req.body);
             next();
         } catch (error) {
-            console.error('Validation Failed ', error, req);
+            console.error('Validation Failed ', error);
             return res.status(422).json({ error });
         }
     };
