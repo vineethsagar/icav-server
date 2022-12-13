@@ -18,12 +18,28 @@ const createReceipt = (req: Request, res: Response, next: NextFunction) => {
         .then((receipt) => res.status(201).json({ receipt }))
         .catch((error) => res.status(400).json({ error }));
 };
-const readReceipt = (req: Request, res: Response, next: NextFunction) => {
+const readReceipt = async (req: Request, res: Response, next: NextFunction) => {
     const receiptId = req.params.receiptId;
+    try {
+        const receipt = await Receipt.findById(receiptId);
 
-    return Receipt.findById(receiptId)
-        .then((receipt) => (receipt ? res.status(200).json({ receipt }) : res.status(404).json({ message: `Receipt with ${receiptId} not found` })))
-        .catch((error) => res.status(500).json({ error }));
+        if (receipt) {
+            console.log('Found the receipt  ', receipt);
+            return res.status(200).json({ receipt });
+        } else {
+            console.log(' Not Found the receipt  ', receipt);
+
+            return res.status(404).json({ message: `Receipt with ${receiptId} not found` });
+        }
+    } catch (error) {
+        console.error('Error occurred while fetching the receipt  ', error);
+
+        return res.status(500).json({ error });
+    }
+
+    // return Receipt.findById(receiptId)
+    //     .then((receipt) => (receipt ? res.status(200).json({ receipt }) : res.status(404).json({ message: `Receipt with ${receiptId} not found` })))
+    //     .catch((error) => res.status(500).json({ error }));
 };
 const updateReceipt = (req: Request, res: Response, next: NextFunction) => {
     const receiptId = req.params.receiptId;

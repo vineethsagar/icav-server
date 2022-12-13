@@ -4,7 +4,7 @@ import Receipt from '../models/Receipt';
 import fs from 'fs';
 import AdmZip from 'adm-zip';
 import { reportsDirectory } from '../constants';
-var uploadDir = fs.readdirSync('./reports');
+
 const downloadReports = async (req: Request, res: Response, next: NextFunction) => {
     const reportName = req.params.fileName;
     try {
@@ -50,7 +50,7 @@ const getAllReportsNames = async (req: Request, res: Response, next: NextFunctio
     if (!fs.existsSync(reportsDirectory)) {
         fs.mkdirSync(reportsDirectory);
         console.log('Folder Created Successfully.');
-        return res.status(404).json({ message: 'No Files in the directory' });
+        return res.status(404).json({ message: 'No Reports' });
     }
     try {
         const fileNames = fs.readdirSync(reportsDirectory, { withFileTypes: true }).map((item, index) => {

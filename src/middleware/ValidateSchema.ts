@@ -28,7 +28,6 @@ export const ValidateReceiptIdSchema = (schema: ObjectSchema) => {
                 console.error('Validation Failed ', isValidObjectId(id));
                 return res.status(422).json({ message: `Unable to process receipt id :${id}` });
             }
-            next();
         } catch (error) {
             console.error('Validation Failed ', error, req);
             return res.status(422).json({ error });
