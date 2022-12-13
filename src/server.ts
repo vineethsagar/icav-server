@@ -10,7 +10,7 @@ import swaggerUi, { SwaggerOptions } from 'swagger-ui-express';
 import './jobs/generateReports';
 const router = express();
 // ! Swagger setup
-const options = {
+const options: swaggerJSDoc.Options = {
     definition: {
         openapi: '3.0.0',
         info: {

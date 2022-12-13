@@ -11,14 +11,16 @@
     "author": "Vineeth Sagar Molla",
     "license": "ISC",
     "dependencies": {
+        "@types/adm-zip": "^0.5.0",
+        "adm-zip": "^0.5.9",
         "dotenv": "^16.0.3",
         "express": "^4.18.2",
         "joi": "^17.7.0",
         "mongoose": "^6.8.0",
         "node-cron": "^3.0.2",
+        "nodemon": "^2.0.20",
         "swagger-jsdoc": "^6.2.5",
         "swagger-ui-express": "^4.6.0",
-        "nodemon": "^2.0.20",
         "ts-node": "^10.9.1"
     },
     "devDependencies": {

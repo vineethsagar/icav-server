@@ -38,6 +38,7 @@ export const generateReports = async () => {
             console.error('There is no data ', response);
             return;
         }
+        const time = new Date().toString().split(' ').join('_').split(':').join('_').substring(0, 24);
         let allReport = `Id,Category,Title,Cost,Time,Percentage\n`;
         const categoryReport: any = {};
         for (let i = 0; i < responseAdd.length; i++) {
@@ -49,7 +50,7 @@ export const generateReports = async () => {
 
         //* generate all_report file
         try {
-            writeFileSync('./all_reports.csv', allReport);
+            writeFileSync(`./reports/reports_${time}.csv`, allReport);
             // writeFileSync('./category_reports.csv', categoryReport);
         } catch (error) {
             console.error('Failed to generate report', error);
@@ -67,7 +68,7 @@ export const generateReports = async () => {
                 const percent: number = (catCost / totalCost) * 100;
                 cat += `${key},${catCost},${percent.toFixed(2)}\n`;
             }
-            writeFileSync('./category_reports.csv', cat);
+            writeFileSync(`./reports/category_report_${time}.csv`, cat);
         } catch (error) {
             console.error('Failed to generate category report', error);
             errorOccurred = true;

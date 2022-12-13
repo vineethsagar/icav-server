@@ -1,6 +1,7 @@
 import Joi, { ObjectSchema } from 'joi';
 import { NextFunction, Request, Response } from 'express';
 import { Category, categoryOptions, Receipt, ReceiptId } from '../models/Receipt';
+import { isValidObjectId } from 'mongoose';
 
 //! Validating only for post for now
 export const ValidateSchema = (schema: ObjectSchema) => {
@@ -17,8 +18,16 @@ export const ValidateSchema = (schema: ObjectSchema) => {
 
 export const ValidateReceiptIdSchema = (schema: ObjectSchema) => {
     return async (req: Request, res: Response, next: NextFunction) => {
+        const id = req.params.receiptId;
         try {
-            await schema.validateAsync(req.params.receptId);
+            // await schema.validateAsync(req.params.receptId);
+            if (isValidObjectId(id)) {
+                console.log('is valid', isValidObjectId(id));
+                next();
+            } else {
+                console.error('Validation Failed ', isValidObjectId(id));
+                return res.status(422).json({ message: `Unable to process receipt id :${id}` });
+            }
             next();
         } catch (error) {
             console.error('Validation Failed ', error, req);
