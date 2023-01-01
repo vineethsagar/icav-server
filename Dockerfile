@@ -1,9 +1,3 @@
-# FROM node:latest
-# WORKDIR /app
-# COPY . /app
-# RUN npm install
-# EXPOSE 8080
-# CMD nodemon
 FROM node:latest
 RUN npm install -g nodemon ts-node
 WORKDIR /usr/src/app
